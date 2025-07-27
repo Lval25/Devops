@@ -1,0 +1,24 @@
+# CPU Usage
+echo "CPU Usage: "$[100-$(vmstat 1 2|tail -1|awk '{print $15}')]"%"
+echo
+
+# Total memory usage as a percentage
+echo "Total Memory usage : " $(free | grep Mem | awk '{printf("%.2f%%\n", $3/$2 * 100)}')
+echo
+
+# Total disk usage
+echo "Total Disk Usage :" $(df -h --total | grep total | awk '{print $5}')
+echo
+
+# Top 5 processes by CPU usage
+echo "Top 5 by CPU"
+ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6
+echo
+
+# Top 5 processes by memory usage
+echo "Top 5 by Memory"
+ps -eo pid,comm,%mem --sort=-%mem | head -n 6
+echo
+
+# Faild login attempts
+grep "Failed password" /var/log/auth.log
